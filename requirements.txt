@@ -1,0 +1,7 @@
+decorator
+MySQL-python
+prompt-toolkit==1.0.7
+PyMySQL
+requests
+SQLAlchemy
+sqlitedict

@@ -38,8 +38,8 @@ setup(
     keywords='sa sqlalchemy sqlenv saenv sahelper',
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
     install_requires=[
-        'requests',
-        'beautifulsoup4'
+        'sqlalchemy',
+        'MySQL-Python'
     ],
 )
 
