@@ -1,0 +1,7 @@
+.*.sw[po]
+*.py[co]
+.DS_Store
+.local/
+*.sqlite
+*.db
+.ropeproject
