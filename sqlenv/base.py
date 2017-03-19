@@ -7,6 +7,50 @@
 # Author: Jon Hannah (jon.hannah01@gmail.com)
 '''
 
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.ext.automap import automap_base
+
+from sqlenv.errors import SqlBaseError
+
+class _SqlBase(object):
+    @classmethod
+    def get_by_id(cls, session, value, raw_query=False, force_one=True):
+        kwargs = {cls._get_id_column(): value}
+        q = session.query(cls).filter_by(**kwargs)
+
+        if raw_query:
+            return q
+
+        if force_one:
+            return q.one()
+
+        return q.first()
+
+    @classmethod
+    def _get_id_column(cls):
+        if hasattr(cls, '_id_column_name') and callable(cls._id_column_name):
+            return cls._get_id_column_name()
+
+        try:
+            tbl_insp = inspect(cls)
+
+            if not tbl_insp or not tbl_insp.primary_keys:
+                raise SqlBaseError('Unable to inspect class to determine primary key')
+
+            return tbl_insp.primary_keys[0].name
+        except SQLAlchemyError, ex:
+            raise SqlBaseError('Error with SQLAlchemy: %s' % str(ex))
+
+SqlBase = automap_base(cls=_SqlBase)
+
+def setup_sa(engine, do_autoflush=True, do_autocommit=True):
+    SqlBase.prepare(engine, reflect=True)
+    Session = scoped_session(sessionmaker(bind=engine, autoflush=do_autoflush, autocommit=do_autocommit))
+    return Session
+
+__all__ = ['SqlBase', 'SqlBaseError', 'setup_sa']
+
+'''####
 from sqlalchemy import ForeignKey, Column, Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import Integer, String
@@ -56,9 +100,4 @@ class SqlBase(object):
                 if return_one:
                     return qry.first()
             return qry.one()
-
-def sa_setup():
-    '''TODO: Docstring'''
-    pass
-
-__all__ = ['SqlBase', 'sa_setup']
+###'''
