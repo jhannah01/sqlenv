@@ -46,7 +46,7 @@ SqlBase = automap_base(cls=_SqlBase)
 def setup_sa(engine, do_autoflush=True, do_autocommit=True):
     SqlBase.prepare(engine, reflect=True)
     Session = scoped_session(sessionmaker(bind=engine, autoflush=do_autoflush, autocommit=do_autocommit))
-    return Session
+    return {'SqlBase': SqlBase, 'Session': Session}
 
 __all__ = ['SqlBase', 'SqlBaseError', 'setup_sa']
 
