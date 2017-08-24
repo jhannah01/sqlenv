@@ -9,22 +9,35 @@ import codecs
 import pkg_resources
 from setuptools import setup, find_packages
 
+from sqlenv import __version__ as pkg_version
+
+
 here = os.path.abspath(os.path.dirname(__file__))
 
 try:
     with codecs.open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
         long_description = f.read()
-except:
+except Exception:
     long_description = None
 
-from sqlenv import __version__ as sqlenv_version
+pkg_name = 'sqlenv'
+pkg_description = 'A helper library for SQLAlchemy'
+pkg_requirements = [
+    'beautifultable',
+    'beautifulsoup4',
+    'simplejson',
+    'sqlitedict',
+    'sqlalchemy',
+    'MySQL-Python']
+pkg_keywords = 'sa sqlalchemy sqlenv saenv sahelper'
+# pkg_version = '0.2'
 
 setup(
-    name='sqlenv',
-    version=sqlenv_version,
-    description='A helper library for SQLAlchemy (particularly for automap and reflection)',
+    name=pkg_name,
+    version=pkg_version,
+    description=pkg_description,
     long_description=long_description,
-    url='https://github.com/jhannah01/sqlenv',
+    url='https://github.com/jhannah01/%s' % pkg_name,
     license='GNU',
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -35,11 +48,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Topic :: Software Development :: Libraries',
     ],
-    keywords='sa sqlalchemy sqlenv saenv sahelper',
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
-    install_requires=[
-        'sqlalchemy',
-        'MySQL-Python'
-    ],
+    keywords=pkg_keywords,
+    packages=find_packages(exclude=['contrib', 'docs', 'tests', '.local']),
+    install_requires=pkg_requirements
 )
-

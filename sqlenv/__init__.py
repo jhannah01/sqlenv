@@ -7,8 +7,8 @@
 # Author: Jon Hannah (jon.hannah01@gmail.com)
 '''
 
+__version__ = '0.2'
+
 from sqlenv.decorators import *
 from sqlenv.errors import *
 from sqlenv.base import *
-
-__version__ = '0.1'
