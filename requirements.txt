@@ -7,4 +7,4 @@ SQLAlchemy
 sqlitedict
 beautifulsoup4
 beautifultable
-ipython<6.0
+ipython>8.10
